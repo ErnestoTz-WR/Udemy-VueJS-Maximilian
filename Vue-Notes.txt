@@ -1,0 +1,6 @@
+-- Two way binding:
+	It is the combination of v-bind: and v-on:
+	This means that we are listening to the input event and at the same time we are writing the value back to the input. 
+	This is that common that Vue has a shortcut = v-mode:
+	
+	
