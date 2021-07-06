@@ -6,16 +6,15 @@ We can use Vue only for:
 
 Vue uses a declarative approach, we just declare our goal (Where do we want dynamic data?, it should be related to what method?, etc.) and Vue will do the behind scene operations which are necessary to obtain that picture.
 
-## Basics of Vue
 
 We control Vue by creating an object at the beginning.
 This object takes `data` as it first parameter which is a function. `data` is a function; this function returns an objet, ALWAYS an object, not array, not string, not a number. Inside this function we include all the key value pairs we would like to work with.
 
-### The idea behind `data` property: 
+## The idea behind `data` property: 
 
 Anything that is part of the object returned in data can now been used in the view control HTML part.
 			
-### Interpolation and Data Biding
+## Interpolation and Data Biding
 
 **Interpolation** is executed as follows on the HTML file:
 
@@ -36,12 +35,12 @@ Interpolation helps  to change information inside the tags.
 ```
 
 
-### Connecting Vue to the HTML file:
+## Connecting Vue to the HTML file:
 
 1. Import Vue inside the HTML file. Create the script tag with the proper link.
-2. Create vue.CreateApp()
-3. Inside vue.CreateApp(); return the data object which includes all the keys and properties (Information to use on the HTML file).
-4. Create the mount() method which selects the part of the HTMl file by Id or Classes which will be binded with Vue.
+2. Create `vue.CreateApp();`
+3. Inside `vue.CreateApp();` return the data object which includes all the keys and properties (Information to use on the HTML file).
+4. Create the `mount()` method which selects the part of the HTMl file by Id or Classes which will be binded with Vue.
 
 **`methods`**: (Inside CreateApp object)
 	
@@ -50,7 +49,7 @@ Interpolation helps  to change information inside the tags.
 
 > It is important to know that we can use all JS expressions and call functions inside both options (data binding and Interpolation).
 	
-### `this` key word.
+## `this` key word.
 
 All the variables define on the `data` section are part of the object `CreateApp` in order to have access to this variables we will need to use the `this` key word in order to reference to them.
 > (It is like in C# they are local parameters from the object and not global from the file). *video 17*
@@ -64,7 +63,7 @@ v-html="outoutHtml"
 
 > We should not use it as default since it can create some security problems*/
 	
-### Creating Event listeners:
+## Creating Event listeners:
 
 We will use the `v-on` prefix on the HTML tag which has the listened element.
 Additionally, we need to specify the type of event we will be listening to and then the JavaScript code which will be executed once the event happens:
@@ -96,7 +95,7 @@ setName(event){
 	}
 ```
 	
-### Event modifiers:
+## Event modifiers:
 
 In some cases there are some behaviors of JavaScript and the browser created by default.
 	
@@ -109,7 +108,7 @@ v-on:submit.prevent="submitForm";
 //Check *video 24*
 ```
 
-### Two way binding:
+## Two way binding:
 
 It is the combination of `v-bind:` and `v-on:`
 	
