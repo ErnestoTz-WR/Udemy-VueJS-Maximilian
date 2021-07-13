@@ -138,4 +138,4 @@ This means that we are listening to the input event and at the same time we are 
 This is that common that Vue has a shortcut = `v-mode:`
 
 
-> Coming from the development branch
+> Coming from the development 
