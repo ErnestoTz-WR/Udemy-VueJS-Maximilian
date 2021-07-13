@@ -6,9 +6,31 @@ We can use Vue only for:
 
 Vue uses a declarative approach, we just declare our goal (Where do we want dynamic data?, it should be related to what method?, etc.) and Vue will do the behind scene operations which are necessary to obtain that picture.
 
+## `vue.createApp({});`
 
 We control Vue by creating an object at the beginning.
 This object takes `data` as it first parameter which is a function. `data` is a function; this function returns an objet, ALWAYS an object, not array, not string, not a number. Inside this function we include all the key value pairs we would like to work with.
+
+```JavaScript
+const app = Vue.createApp({
+	data: function (){ 
+
+	}
+});
+
+//data requires a function as a value. However we can also use the following syntax:
+
+const app = Vue.createApp({
+	data(){ 
+
+	}
+});
+
+```
+
+## `app.mount()` 
+
+Here we can declare which is the part from the HTML file that we want to control with Vue, we cna specify this by passing an string with th proper id.
 
 ## The idea behind `data` property: 
 
