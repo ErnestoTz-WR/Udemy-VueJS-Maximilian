@@ -1,32 +1,4 @@
-# Introduction
-
-We can use Vue for:
-- Widgets - little parts on the website.
-- "Single-Page-Application" - The whole is created by a view.
-
-Vue uses a declarative approach, we just declare our goal (Where do we want dynamic data?, it should be related to what method?, etc.) and Vue will do the behind scene operations which are necessary to obtain that picture.
-
-## `vue.createApp({});`
-
-We control Vue by creating an object at the beginning.
-This object takes `data` as it first parameter which is a function. `data` is a function; this function returns an objet, ALWAYS an object, not array, not string, not a number. Inside this function we include all the key value pairs we would like to work with.
-
-```JavaScript
-const app = Vue.createApp({
-	data: function (){ 
-
-	}
-});
-
-//data requires a function as a value. However we can also use the following syntax:
-
-const app = Vue.createApp({
-	data(){ 
-
-	}
-});
-
-```
+# Basic Concepts and DOM Interaction
 
 ## `app.mount()` 
 
@@ -52,10 +24,10 @@ Interpolation helps  to change information inside the tags.
 
 ```HTML
 <a v-bind:href="">About Vue</a>
-//In this case we are binding (setting) the value of the attribute 'href' to a dynamic link created in Vue.
-//v-bind: will work with the attribute next to it. It will set the value inside the "".
-```
+<!-- In this case we are binding (setting) the value of the attribute 'href' to a dynamic link created in Vue.-->
 
+<!--v-bind: will work with the attribute next to it. It will set the value inside the "".-->
+```
 
 ## Connecting Vue to the HTML file:
 
@@ -83,7 +55,7 @@ v-html="outoutHtml"
 ```
 
 
-> We should not use it as default since it can create some security problems*/
+We should not use it as default since it can create some security problems
 	
 ## Creating Event listeners:
 
