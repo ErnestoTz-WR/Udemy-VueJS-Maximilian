@@ -1,6 +1,6 @@
 # Introduction
 
-We can use Vue only for:
+We can use Vue for:
 - Widgets - little parts on the website.
 - "Single-Page-Application" - The whole is created by a view.
 
