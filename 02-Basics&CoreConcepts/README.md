@@ -27,48 +27,149 @@ app.mount("#events");
 
 ## The idea behind `data` property
 
-Anything that is part of the object returned in `data` can be used in the view control HTML part.
+Anything that is returned by the `data` object can be used inside the HTML part controlled by Vue.
 
 ## Interpolation and Data Biding
 
-**Interpolation** is executed as follows on the HTML file:
+#### **Interpolation**
+
+It is controlled by Vue using an specific type of syntax. This syntax would not be understood by HTML or JavaScript alone.  
+We need to use double curly braces ``{{}}`` on the HTML element and then use the variable which should be render by Vue.  
+Interpolation is used to modify content inside HTML elements, we will use data binding to modify HTML attributes.
 
 ```HTML
-<p>{{<name of the key inside the data vue object}}</p>
+<!-- HTML file-->
+<section id="user-goal">
+	<p>{{courseGoal}}</p>
 ```
 
-> In some cases Interpolation is not the best solution so we use Data Biding.
+```JavaScript
+//JavaScript file
+const app = Vue.createApp({
+  data() {
+    return {
+      courseGoal: "Finish the course and learn Vue."
+	}
+});
+app.mount("#user-goal");
 
-Interpolation helps  to change information inside the tags.
+// This will bind the <p> element to the courseGoal variable.
+```
 
-**Data Biding**: We use it always when we want to change information from attributes of a tag:
+> The `{{}}` syntax is only available inside HTML elements, if we want to use it to declare a class or href this syntax won't work.
+
+With Interpolation we can also execute JavaScript logic or call methods. However we can't write complex code inside.
 
 ```HTML
-<a v-bind:href="">About Vue</a>
-<!-- In this case we are binding (setting) the value of the attribute 'href' to a dynamic link created in Vue.-->
-
-<!--v-bind: will work with the attribute next to it. It will set the value inside the "".-->
+<!-- This is possible-->
+<section id="user-goal">
+	<p>{{Math.random()}}</p>
 ```
+### **Data Biding**
 
-## **`methods`**: (Inside CreateApp object)
+We use it when we want to change information from HTML attributes. 
 
-Allows us to define functions which should execute when something happens.  
-To methods we pass a JavaScript object. Methods is a JavaScript object which is full of methods. The name of the methods is up to us.
+The way in which we can bind (set) attributes with Vue is by using the syntax `v-bind:`.
 
-> It is important to know that we can use all JS expressions and call functions inside both options (data binding and Interpolation).
-
-## `this` key word.
-
-All the variables define on the `data` section are part of the object `CreateApp` in order to have access to this variables we will need to use the `this` key word in order to reference to them.
-> (It is like in C# they are local parameters from the object and not global from the file). *video 17*
-
-If we want to give an output which should be interpreted as HTML instead of an string we need to add the following inside the tag we want to work with:
+`v-bind:` will work with the attribute next to it. It will set the value inside the quotes `"<VueProperty>"`.
 
 ```HTML
-v-html="outoutHtml" 
+<!-- HTML file-->
+<section id="user-goal">
+	<a v-bind:href="vueLink">About Vue</a>
 ```
 
-We should not use it as default since it can create some security problems
+```JavaScript
+// JavaScript file
+const app = Vue.createApp({
+  data() {
+    return {
+      vueLink: "https://vuejs.org/"
+	}
+});
+app.mount("#user-goal");
+```
+
+## **`methods:`** (Inside Vue object)
+
+Allows us to define functions which will be used inside the application.
+
+`methods` is a JavaScript object which is full of functions.
+
+### How to call `methods:` with Interpolation
+
+```HTML
+<!-- HTML file-->
+<section id="user-goal">
+	<p>{{outputGoal()}}</p>
+```
+
+```JavaScript
+const app = Vue.createApp({
+  methods:{
+    outputGoal(){
+      const randomNumber = Math.random();
+      if(randomNumber < 0.5){
+         return "Finish the course and learn Vue.";
+      } else {
+        return "Master Vue and get a job!";
+      }
+    }
+  }
+});
+app.mount("#user-goal");
+```
+
+> It is important to know that we can use all JavaScript expressions and call functions inside both options (data binding and Interpolation).
+
+### `this` key word on `methods`
+
+All the variables define on the `data` section are part of the `Vue` object, in order to have access to this variables we will need to use the `this` key word to reference to them.
+
+```JavaScript
+const app = Vue.createApp({
+  data() {
+    return {
+      courseGoalA: "Finish the course and learn Vue.",
+      courseGoalB: "Master Vue and get a job!"
+    };
+  },
+  methods:{
+    outputGoal(){
+      const randomNumber = Math.random();
+      if(randomNumber < 0.5){
+        // In order to use the variables specified on data we need the key word this
+         return this.courseGoalA; 
+      } else {
+        return this.courseGoalB;
+      }
+    }
+  }
+});
+app.mount("#user-goal");
+```
+## `v-html` - Passing raw HTML elements with Vue
+
+If we want to give an output which should be interpreted as HTML instead of an string we need to add the `v-html` attribute.
+
+```HTML
+<!-- HTML file-->
+<div v-html="courseGoalC"></div>
+```
+
+```JavaScript
+// JavaScript file
+const app = Vue.createApp({
+  data() {
+    return {
+      courseGoalC: '<h2>This is a header from Vue</h2>'
+    };
+  }
+});
+app.mount("#user-goal");
+```
+
+> We should not use it as default since it can create some security problems
 
 ## Creating Event listeners
 

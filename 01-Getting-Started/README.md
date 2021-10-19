@@ -52,7 +52,7 @@ This is not a default attribute, it is only understood by Vue. It creates a conn
 
 Allows us to define functions which should execute when something happens.
 
-Methods is a JavaScript object which is full of methods.
+`methods` is a JavaScript object which is full of methods.
 
 ```JavaScript
 Vue.createApp({
