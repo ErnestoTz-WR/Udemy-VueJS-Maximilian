@@ -18,7 +18,7 @@ Vue uses a declarative approach, we just declare our goal (Where do we want dyna
 ## Vue object
 
 `Vue` is a global object, its method `createApp()` will take control of the application.  
-This object takes `data` as it first parameter which is a function. `data` is a function; this function returns an objet, ALWAYS an object.
+This object takes `data` as it first parameter which is a function. `data` is a function, this function returns an objet, ALWAYS an object.
 
 > **Inside `data` we include all the key value pairs we would like to work with.**
 
@@ -33,14 +33,16 @@ Vue.createApp({
 //data requires a function as a value. However we can also use the following syntax:
 
 Vue.createApp({
-	data(){
-	goals: [],
-	enteredValue: ""
-	}
+  data() {
+    return {
+      goals: [],
+      enteredValue: ''
+    };
+  }
 });
-
-// On the HTML file we will have to bind the element to the Vue object
-
+```
+```HTML
+<!-- We bind the HTML element to the Vue object using v-model -->
 <input type="text" id="goal" v-model="enteredValue">
 ```
 
@@ -48,11 +50,9 @@ Vue.createApp({
 
 This is not a default attribute, it is only understood by Vue. It creates a connection between Vue and the HTML element.
 
-## `methods:{}` key (Inside `CreateApp()`)
+## `methods:`
 
-Allows us to define functions which should execute when something happens.
-
-`methods` is a JavaScript object which is full of methods.
+Allows us to define functions inside the `Vue` object.
 
 ```JavaScript
 Vue.createApp({
@@ -71,7 +71,7 @@ Vue.createApp({
 ## `v-on` Vue attribute
 
 It is used for specific events, for example `click`, `scroll`, `hover`, etc.  
-It is declared on the html element bind to the Vue object.
+It is declared on the html element which should be modified by Vue.
 
 ```HTML
 <button v-on:click="addGoal">Add goal </button>

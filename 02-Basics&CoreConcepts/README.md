@@ -13,11 +13,11 @@ We can import the framework on the HTML file using the following tag:
 1. Import Vue inside the HTML file. Create the script tag with the proper link.
 2. Create `vue.CreateApp();`
 3. Inside `vue.CreateApp();` return the data object which includes all the keys and properties (Information to use on the HTML file).
-4. Create the `mount()` method which selects the part of the HTMl file by Id or Classes which will be binded with Vue.
+4. Create the `mount()` method which selects the part of the HTMl file by Id or Classes which will be bound with Vue.
 
 ## `app.mount()`
 
-Here we can declare which is the part from the HTML file that we want to control with Vue, we can specify this by passing an string with th proper id.
+Here we can declare which is the part from the HTML file that we want to control with Vue, we can specify this by passing an string with the proper id.
 
 > If we control one HTML element with Vue we also have control over its child elements.
 
@@ -56,7 +56,7 @@ app.mount("#user-goal");
 // This will bind the <p> element to the courseGoal variable.
 ```
 
-> The `{{}}` syntax is only available inside HTML elements, if we want to use it to declare a class or href this syntax won't work.
+> The `{{}}` syntax is only available inside HTML elements, if we want to use it to declare a class or an HTML attribute this syntax won't work.
 
 With Interpolation we can also execute JavaScript logic or call methods. However we can't write complex code inside.
 
@@ -120,11 +120,9 @@ const app = Vue.createApp({
 app.mount("#user-goal");
 ```
 
-> It is important to know that we can use all JavaScript expressions and call functions inside both options (data binding and Interpolation).
-
 ### `this` key word on `methods`
 
-All the variables define on the `data` section are part of the `Vue` object, in order to have access to this variables we will need to use the `this` key word to reference to them.
+All the variables defined on the `data` section are part of the `Vue` object, in order to have access to this variables we will need to use the `this` key word to reference to them.
 
 ```JavaScript
 const app = Vue.createApp({
@@ -172,11 +170,14 @@ app.mount("#user-goal");
 > We should not use it as default since it can create some security problems
 
 ## Creating Event listeners
+### `v-on` Vue attribute
 
-We will use the `v-on` prefix on the HTML tag which has the listened element.
-Additionally, we need to specify the type of event we will be listening to and then the JavaScript code which will be executed once the event happens:
+It is declared on the html element which should be modified by Vue.
+It can be used to listen all events which are available for JavaScript, for example `click`, `scroll`, `mouseenter`, etc.  
+As the parameter, we need to specify the type of event we will be listening to and then the JavaScript code which will be executed once the event happens.
 
 ```HTML
+<!-- v-on:<type of event>="code to be executed" -->
 <button v-on:click="AddOne">Add</button>
 ```
 
@@ -186,33 +187,106 @@ Additionally, we need to specify the type of event we will be listening to and t
 <button v-on:click="AddOne(5)">Add 5</button>
 ```
 
-By default the browser returns the `event` object which contains a lot of information from the event. This can be very useful for some Java Script operations.
+### Using the `event` object on Vue
 
-```JavaScript
-//HTML
+By default the browser returns the `event` object every time we use an event, this object contains a lot of information from the event itself.
+
+```HTML
 <input type="text" v-on:input="setName"> 
+```
+```JavaScript
 //JavaScript
 setName(event){ 
     this.name = event.target.value;
+    // this gives us access tot the value inside the input tag.
 }
-
-/* If we need to use paramaters and still we need to use the event object. We have to use the following sysntax:*/
-
-<input type="text" v-on:input="setName($event, 'Tzompantzi')">  setName(event, lastName) { this.name = event.target.value + ' ' + lastName; }
 ```
 
-## Event modifiers
+> If we need to use parameters and still we need to use the event object. We have to use the `$event` parameter firstly.
+
+```HTML
+<input type="text" v-on:input="setName($event, 'Tzompantzi')">  
+```
+
+```JavaScript
+setName(event, lastName) {
+   this.name = event.target.value + ' ' + lastName; 
+   }
+```
+
+## Vue modifiers
+
+### Event modifiers
 
 In some cases there are some behaviors of JavaScript and the browser created by default.
 
 One of them is the case when we have a form with a button. Once we click the button, the default behavior is to send an http request to the server to reload the page. In this case we reload the whole page and this makes us lose the previous information.  
-To prevent this we can use the `event.preventDefault();` in vanilla JS.
+To prevent this we can use:
+1.  `event.preventDefault();` in vanilla JS.
 
-```JavaScript
-v-on:submit.prevent="submitForm"; 
-//Check *video 24*
+```HTML
+<form v-on:submit="submit">
+  <input type="text">
+  <button> Sign up</button>
+</form>
 ```
 
+```JavaScript
+const app = Vue.createApp({
+  methods: {
+    submit(event){
+      event.preventDefault(); // Here is the modifier.
+      console.alert('Submit!');
+    }
+});
+app.mount("#user-goal");
+```
+
+2. Event modifiers from Vue. I will indicate the type of modifier right after calling the method to use on `v-on:`. It is basically the same than the previous case but with less code.
+
+```HTML
+<form v-on:submit="submit.prevent"> <!-- HERE is where I can specify the modifier -->
+  <input type="text">
+  <button> Sign up</button>
+</form>
+```
+
+```JavaScript
+const app = Vue.createApp({
+  methods: {
+    submit(){
+      console.alert('Submit!');
+    }
+});
+app.mount("#user-goal");
+```
+We can also use this modifiers for other type of events.  
+In the following case the `click` event will be only triggered when the user clicks with the right button.
+
+```HTML
+<button v-on:click.right="AddOne(5)">Add 5</button>
+```
+
+### Key modifiers
+
+This will be triggered by keyboard events. For example we only want to execute a function once the enter button is pressed.  
+For this we will bind to the `keyup` event and use the `enter` modifier.
+
+```HTML
+<input type="text" v-on:keyup.enter="setName">
+```
+
+## `v-once`
+
+It is used in case we have an scenario in which we have some data that changes, we want to preserve the initial state and not reflect any other changes we can use `v-once`
+
+```HTML
+<!-- Will be always dynamic and render every time counter is change -->
+<p>Current counter: {{counter}}</p>
+
+<!-- Will only render the first change of counter event if it changes later on -->
+<p v-once> Initial counter: {{counter}}</p>
+```
 ## Two way binding
 
 It is the combination of `v-bind:` and `v-on:`
