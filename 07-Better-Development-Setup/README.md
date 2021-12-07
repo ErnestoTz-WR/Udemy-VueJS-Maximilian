@@ -14,7 +14,7 @@ We need to download **npm** in order to use this tool.
 2. Create the vue project by running `vue create {{name-of-folder}}` on the correct path.
 3. Give the necessary set up.
 4. Run `npm install` on the project to download the necessary dependencies.
-
+5. `npm run serve` will run the project.
 ## import
 
 It is the JavaScript syntax to use code from another file or package.

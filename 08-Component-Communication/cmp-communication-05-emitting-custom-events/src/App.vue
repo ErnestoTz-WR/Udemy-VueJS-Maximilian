@@ -3,6 +3,7 @@
     <header>
       <h1>My Friends</h1>
     </header>
+    <new-friend @add-contact="addContact"></new-friend>
     <ul>
       <friend-contact
         v-for="friend in friends"
@@ -19,7 +20,9 @@
 </template>
 
 <script>
+import NewFriend from './components/NewFriend.vue';
 export default {
+  components: { NewFriend },
   data() {
     return {
       friends: [
@@ -47,6 +50,16 @@ export default {
       );
       identifiedFriend.isFavorite = !identifiedFriend.isFavorite;
     },
+    addContact (name, phone, email) {
+      const newFriend = {
+        id: '5',
+        name: name,
+        phone: phone,
+        email: email,
+        isFavorite: false
+      }
+      this.friends.push(newFriend)
+    }
   },
 };
 </script>
