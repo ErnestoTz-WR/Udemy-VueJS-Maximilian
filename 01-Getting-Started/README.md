@@ -93,6 +93,8 @@ It is used on the HTML file.
 
 Here we can declare which is the part from the HTML file that we want to control with Vue, we can specify this by passing an string with the proper id.
 
+`.mount()` is important because we can also specify what happens during this moment with the application; we can retrieve certain information, create a loader, etc.
+
 ```JavaScript
 Vue.createApp({
   data() {
