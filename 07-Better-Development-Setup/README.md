@@ -13,22 +13,27 @@ We need to download **npm** in order to use this tool.
 1. Run on a terminal `npm install -g @vue/cli`
 2. Create the vue project by running `vue create {{name-of-folder}}` on the correct path.
 3. Give the necessary set up.
-4. Run `npm install` on the project to download the necessary dependencies.
-5. `npm run serve` will run the project.
-## import
+4. `npm run serve` will run the project.
+## main.js
 
-It is the JavaScript syntax to use code from another file or package.
+It is the entry point of the application. It will import the `Vue` object and then call `mount()` to instantiate the app.   
+Here we can include imports from different files or packages.
 
-If we want to import a file we need to include the path.
 
-```JavaScript
-import App from './App.vue'
-```
+## `.vue` files
 
-> In this case we are using `export default`.
+They allow us to write Vue components.
+It contains:
+- HTML - inside the `template` element.
+- JavaScript - with the Vue syntax
+- Styles - with CSS or any pre-processor.
 
-For importing code from a package we only use the package name.
+These 3 parts can be inside the `.vue` file or we can also split them into different files.
 
-```JavaScript
-import { createApp } from 'vue';
-```
+## Build WorkFlow
+
+Code written using Vue will be transform by the Vue-cli tool into regular JS code that can be understood by any server/browser. 
+
+## App.vue file
+
+It is a convention that we create a main file called `App.vue` which contains the main structure of our application. If necessary we will split the application into many components.

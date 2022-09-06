@@ -1,5 +1,13 @@
 # 8. Components Communication
 
+## Adding a component
+
+With the project setup created by the vue-cli tool. It is a convention that we add a new folder called `components` which contain every file with single components.
+
+In order to call those components we need to import them into the specific file which is using them. In case we are creating an SPA probably that will be on the `main.js` file or it can be also imported on the `App.vue` file.
+
+> Check Version 1 and Version 2 on the [07-Better-Development-Setup](../07-Better-Development-Setup/Vue-Project-setup/vue-first-app)
+
 ## Props
 
 Props is short for properties, we can think about them as custom HTML attributes.  

@@ -1,26 +1,37 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <!-- <img alt="Vue logo" src="./assets/logo.png">
+  <HelloWorld msg="Welcome to Your Vue.js App"/> -->
+  <section>
+    <header><h1>My Friends</h1></header>
+    <ul>
+      <!-- Version 1 -->
+      <FriendComponent></FriendComponent>
+      <FriendComponent></FriendComponent>
+      <FriendComponent></FriendComponent>
+      
+      <!-- Version 2 -->
+      <!-- <friend-component></friend-component>
+      <friend-component></friend-component>
+      <friend-component></friend-component> -->
+    </ul>
+  </section>
 </template>
 
+
+<!-- Version 1 -->
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+// import HelloWorld from './components/HelloWorld.vue'
+import FriendComponent from './components/FriendComponent.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    // HelloWorld
+    FriendComponent
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+@import url('https://fonts.googleapis.com/css2?family=Jost&display=swap');
 </style>
