@@ -6,12 +6,20 @@ With the project setup created by the vue-cli tool. It is a convention that we a
 
 In order to call those components we need to import them into the specific file which is using them. In case we are creating an SPA probably that will be on the `main.js` file or it can be also imported on the `App.vue` file.
 
-> Check Version 1 and Version 2 on the [07-Better-Development-Setup](../07-Better-Development-Setup/Vue-Project-setup/vue-first-app)
+> Check Version 1 and Version 2 on the [07-Better-Development-Setup](../07-Better-Development-Setup//vue-first-app/src/App.vue)
 
 ## Props
 
 Props is short for properties, we can think about them as custom HTML attributes.  
 In reality we can use custom HTML attributes but we need to make Vue aware about this.
+
+`props` in its simplest form it takes an array.
+
+> props need to be define in a CamelCase inside the JavaScript file. Vue can translate them into their dash version, `phoneNumber` would be translated into `phone-number`
+
+We can use `props` as `data:` properties for Interpolation and data binding.
+
+We use `props` to communicate from parent elements to their children.
 
 ```HTML
 <template>
@@ -50,15 +58,6 @@ export default {
     }
 }
 ```
-
-`props` in its simplest form it takes an array.
-
-> props need to be define in a CamelCase inside the JavaScript file. Vue can translate them into their dash version, `phoneNumber` would be translated into `phone-number`
-
-We can use `props` as `data:` properties for Interpolation and data binding.
-
-We use `props` to communicate from parent elements to their children.
-
 ## Mutation of `props`
 
 Data passed from the parent to the child element should not be mutated(changed).

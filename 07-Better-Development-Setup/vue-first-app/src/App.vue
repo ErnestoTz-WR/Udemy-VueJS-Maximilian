@@ -31,6 +31,7 @@ export default {
   }
 }
 </script>
+<!-- Comment out the script area to deply version 2-->
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Jost&display=swap');
