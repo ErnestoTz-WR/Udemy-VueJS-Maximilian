@@ -332,3 +332,113 @@ Look at the logic on the [project created](./vue-first-app/src/App.vue).
 
 On the [assignment project](./assignment-project/src), The `UserData` component communicates to the `App` object using `$emit`, inside the emit it returns a `newUser` object which can be added to the `users` array (using `array.push(newUser)`).   
 The problem with this scenario is that once the object is added to the array, `newUser` still holds a reference to the added object because of `v-model`, giving new information on the input  will modify data already added to the array (on every single object).
+
+## Provide + Inject
+
+This pattern should be only used when we have "pass" components. In any other case we should use `props` and custom events (`$emit`).
+
+We can have some cases in which we have a basic component, it will return or required information from a parent component, however this information is not given by the 1st degree ancestor but by the 2nd degree (the grandparent). In this scenario the parent component would be only passing data from grandparent to son, but not implementing any logic or additional data. Check [Potential problem project](./Potential-problem-components/src/App.vue):
+
+- `KnowledgeBase` "grandparent" component, only passing data to the `App` file.
+- `KnowledgeGrid` "parent", renders everything.
+- `KnowledgeElement` basic component.
+
+Here we have an array (`topics`) with all the information, this array is used on `KnowledgeGrid`; instead of passing it as a promp to `KnowledgeBase` and then again passing it as a promp to `KnowledgeGrid` we can use `provide` and `inject`.
+
+### `provide` 
+
+It includes the data we want to use on other components.
+
+We can define it as an object, however this would create a duplication of information and making it static since we will have to also define it on the `data()` method (updates on the first array will not take place on the second one).
+
+```JavaScript
+export default {
+	data() {
+		return {
+			topics: [
+				{
+					id: 'basics',
+					title: 'The Basics',
+					description: 'Core Vue basics you have to know',
+					fullText:
+						'Vue is a great framework and it has a couple of key concepts: Data binding, events, components and reactivity - that should tell you something!',
+				},
+				{
+					id: 'components',
+					title: 'Components',
+					description:
+						'Components are a core concept for building Vue UIs and apps',
+					fullText:
+						'With components, you can split logic (and markup) into separate building blocks and then combine those building blocks (and re-use them) to build powerful user interfaces.',
+				},
+			],
+			activeTopic: null,
+		};
+	},
+	provide: {
+		topics: [
+			{
+				id: 'basics',
+				title: 'The Basics',
+				description: 'Core Vue basics you have to know',
+				fullText:
+				'Vue is a great framework and it has a couple of key concepts: Data binding, events, components and reactivity - that should tell you something!',
+			},
+			{
+				id: 'components',
+				title: 'Components',
+				description:
+				'Components are a core concept for building Vue UIs and apps',
+				fullText:
+				'With components, you can split logic (and markup) into separate building blocks and then combine those building blocks (and re-use them) to build powerful user interfaces.',
+			},
+		],
+	},
+}
+```
+
+> Defining `provide` as a method will solve this problem since we can now only point at the given information:
+
+```JavaScript
+export default {
+	data() {
+		return {
+			topics: [
+				{
+					id: 'basics',
+					title: 'The Basics',
+					description: 'Core Vue basics you have to know',
+					fullText:
+						'Vue is a great framework and it has a couple of key concepts: Data binding, events, components and reactivity - that should tell you something!',
+				},
+				{
+					id: 'components',
+					title: 'Components',
+					description:
+						'Components are a core concept for building Vue UIs and apps',
+					fullText:
+						'With components, you can split logic (and markup) into separate building blocks and then combine those building blocks (and re-use them) to build powerful user interfaces.',
+				},
+			],
+			activeTopic: null,
+		};
+	},
+	provide(){
+		return{
+			topics: this.topics
+		}
+	}
+}
+```
+### `inject` 
+
+It lets Vue know that the information provided by some upper level element will be used on the current element.    
+The information provided must come from a higher up level element always; it won't work between neighboring elements.    
+It is an array with every data injected:
+
+```JavaScript
+export default {
+  // props: ['topics'],
+  inject: ['topics']
+};
+```
