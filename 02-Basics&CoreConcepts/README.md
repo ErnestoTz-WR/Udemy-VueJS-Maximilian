@@ -202,7 +202,7 @@ setName(event){
 }
 ```
 
-> If we need to use parameters and still we need to use the event object. We have to use the `$event` parameter firstly.
+> If we need to use parameters and still we need to use the event object. We have to use the `$event` parameter first.
 
 ```HTML
 <input type="text" v-on:input="setName($event, 'Tzompantzi')">  
