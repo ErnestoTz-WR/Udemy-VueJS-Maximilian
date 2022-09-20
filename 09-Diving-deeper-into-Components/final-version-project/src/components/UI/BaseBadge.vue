@@ -12,7 +12,7 @@ export default {
         'badge--author': this.type === 'author',
       };
     },
-  },
+  }
 };
 </script>
 
