@@ -57,4 +57,5 @@ Optionally, by using the `@blur` event listener (it is activated once the user s
 
 
 ## Custom forms
-We can create custom elements and use `v-model`
+We can create custom elements and use `v-model`.
+Watch video
