@@ -12,7 +12,7 @@ For this we need to include a new package which will allow us to split our appli
 5. Include the router on the Vue App with `app.use()`.
 6. Define inside the array which are the routes we need for the application.
 7. Import the components and add them accordingly to the routes.
-8. Use the `<router-view>` element on the place wwe want to include those components rendered by the Vue router (This is usually on the `App.vue` file or `index.vue` since probably we are centrally controlling the App from this point.)
+8. Use the `<router-view>` element on the place we want to include those components rendered by the Vue router (This is usually on the `App.vue` file or `index.vue` since probably we are centrally controlling the App from this point.)
 
 ```JavaScript
 import { createApp } from 'vue';
@@ -84,6 +84,12 @@ a.active {
 It is used when we have a button whit some method, once that action is done we might redirect the user to a different part of our application. In this case we will use router in a different way, we need to push a new path to the history. We do that by using `this.$router.push()`.   
 `this.$router` is an available object since we imported the package. It contains other methods which can be useful (`beck()`, `forward()`, etc.)
 
+```JavaScript
+redirectUser() {
+  this.$router.push('/teams');
+}
+```
+
 ## Dynamic segments inside a path
 
 It is very common that we would like to give dynamic information inside the url (a dynamic id).
@@ -124,12 +130,12 @@ renderingSelectedElement() {
   const teamId = this.$route.params.teamId;
   const selectedTeam = this.teams.find( team => team.id === teamId);
   const members = selectedTeam.members;
-  const selectedMemebers = [];
+  const selectedMembers = [];
   for (const member of members) {
     const selectedUser = this.users.find( user => user.id === member)
-    selectedMemebers.push(selectedUser);
+    selectedMembers.push(selectedUser);
   }
-  this.members = selectedMemebers;
+  this.members = selectedMembers;
   this.teamName = selectedTeam.name;
 }
 ```
@@ -143,12 +149,12 @@ methods: {
     const teamId = route.params.teamId;
     const selectedTeam = this.teams.find(team => team.id === teamId);
     const members = selectedTeam.members;
-    const selectedMemebers = [];
+    const selectedMembers = [];
     for (const member of members) {
       const selectedUser = this.users.find(user => user.id === member)
-      selectedMemebers.push(selectedUser);
+      selectedMembers.push(selectedUser);
     }
-    this.members = selectedMemebers;
+    this.members = selectedMembers;
     this.teamName = selectedTeam.name;
   }
 },
@@ -184,12 +190,12 @@ export default {
     loadTeamMembers(teamId) {
       const selectedTeam = this.teams.find(team => team.id === teamId);
       const members = selectedTeam.members;
-      const selectedMemebers = [];
+      const selectedMembers = [];
       for (const member of members) {
         const selectedUser = this.users.find(user => user.id === member)
-        selectedMemebers.push(selectedUser);
+        selectedMembers.push(selectedUser);
       }
-      this.members = selectedMemebers;
+      this.members = selectedMembers;
       this.teamName = selectedTeam.name;
     }
   },
@@ -217,3 +223,120 @@ const router = createRouter({
   linkActiveClass: 'active'
 })
 ```
+
+## Redirecting and catching all routes
+
+### `redirect` & `alias`
+
+Inside the `router` object we can redirect a path in case we want to display a view we already imported. As the name implies the user will be actually redirected and the path will change (in this case from `localhost/` to `localhost/teams`)
+
+```JavaScript
+const router = createRouter({
+  history: createWebHistory(),
+  routes: [
+    { path: '/', redirect: '/teams'}, // Using redirect
+    { path: '/teams', component: TeamsList},
+    { path: '/users', component: UsersList},
+    { path: '/teams/:teamId', component: TeamMembers, props: true}
+  ],
+  linkActiveClass: 'active'
+})
+```
+
+Alternatively we can use `alias` to identify a path with a different address, but this will not redirect the user which might be a downside in our application. 
+
+```JavaScript
+const router = createRouter({
+  history: createWebHistory(),
+  routes: [
+    { path: '/teams', component: TeamsList, alias: '/'}, // Here we defined the alias
+    { path: '/users', component: UsersList},
+    { path: '/teams/:teamId', component: TeamMembers, props: true}
+  ],
+  linkActiveClass: 'active'
+})
+```
+
+### Catch invalid routes
+
+We can define at the end a dynamic path which will catch all other routes. We can then redirect the user to a **"Not found"** page.
+
+```JavaScript
+const router = createRouter({
+  history: createWebHistory(),
+  routes: [
+    { path: '/', redirect: '/teams'},
+    { path: '/teams', component: TeamsList},
+    { path: '/users', component: UsersList},
+    { path: '/teams/:teamId', component: TeamMembers, props: true},
+    { path: '/:notFound(.*)', component: NotFound}
+  ],
+  linkActiveClass: 'active'
+})
+```
+
+## Nested Routes
+
+It is like having a router inside another router.
+For this we will have to:
+
+1. On the `router` object we have to define `children` on a specific path. 
+2. On the children object we can specify new paths same way as before. That route will be reach by the parent path + whatever we define. (In this case `:teamId`)
+3. Declare a new `<router-view>` inside the parent component (In this case inside `TeamsList`).
+
+```JavaScript
+const router = createRouter({
+  history: createWebHistory(),
+  routes: [
+    { path: '/', redirect: '/teams' },
+    { path: '/teams', 
+      component: TeamsList, 
+      children: [ // 1.
+        {path: ':teamId', component: TeamMembers, props: true} //2.
+      ]},
+    { path: '/users', component: UsersList },
+    { path: '/:notFound(.*)', component: NotFound },
+  ],
+  linkActiveClass: 'active',
+});
+```
+
+Summary: we can have another router inside, we need to declare child routes and their children elements. The big view will not change only on that part controlled by the inner `<router-view>`.
+
+
+## Location objects and Named routes
+
+We can assign a name for every route. It has to be a string.
+Once we call them on the `this.$router` object we can call the path by its name.
+The biggest advantage using this way is that our code becomes more scalable, readable and maintainable.
+
+```JavaScript
+const router = createRouter({
+  history: createWebHistory(),
+  routes: [
+    { path: '/', redirect: '/teams' },
+    { name: 'teams'
+      path: '/teams', 
+      component: TeamsList, 
+      children: [ // 1.
+        {name: 'team-members', path: ':teamId', component: TeamMembers, props: true} //2.
+      ]},
+    { path: '/users', component: UsersList },
+    { path: '/:notFound(.*)', component: NotFound },
+  ],
+  linkActiveClass: 'active',
+});
+
+/// -----> We can call this on this.$router as follows: <------------
+this.$router.push({name: 'team-members', params: {teamId: this.id}});
+```
+
+## Query parameters
+
+*Query Parameters** are used to get extra information from the path. They are optional.   
+It starts with a `?`. E.g. (`localhost.com/desktop/information?sort=asc`).
+
+We can extract them from the component that is loaded, there is no need to declare them on the main router object.
+
+We can extract them by using `this.$route.query`, this extracts all those query parameters.
+

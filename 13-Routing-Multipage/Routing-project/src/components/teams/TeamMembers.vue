@@ -33,12 +33,12 @@ export default {
       // const teamId = route.params.teamId;
       const selectedTeam = this.teams.find(team => team.id === teamId);
       const members = selectedTeam.members;
-      const selectedMemebers = [];
+      const selectedMembers = [];
       for (const member of members) {
         const selectedUser = this.users.find(user => user.id === member)
-        selectedMemebers.push(selectedUser);
+        selectedMembers.push(selectedUser);
       }
-      this.members = selectedMemebers;
+      this.members = selectedMembers;
       this.teamName = selectedTeam.name;
     }
   },
