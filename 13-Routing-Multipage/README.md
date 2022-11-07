@@ -340,3 +340,94 @@ We can extract them from the component that is loaded, there is no need to decla
 
 We can extract them by using `this.$route.query`, this extracts all those query parameters.
 
+## Multiple `<router-view>` on the same level
+
+We can use multiple `<router-view>` on the same component by naming those views and define them on the router object. We do this by using `components` as an object:
+
+```JavaScript
+const router = createRouter({
+  history: createWebHistory(),
+  routes: [
+    { path: '/', redirect: '/teams' },
+    { name: 'teams'
+      path: '/teams', 
+      components: { // Here we define multiple views
+        default: TeamsList,
+        footer: TeamsFooter
+        }, 
+      children: [ 
+        {name: 'team-members', path: ':teamId', component: TeamMembers, props: true}
+      ]},
+    { path: '/users', component: UsersList },
+    { path: '/:notFound(.*)', component: NotFound },
+  ],
+  linkActiveClass: 'active',
+});
+```
+
+On the HTML element we have to name those views similar than in a slot:
+
+```HTML
+<template>
+  <router-view></router-view>
+  <ul>
+    <teams-item
+      v-for="team in teams"
+      :key="team.id"
+      :id="team.id"
+      :name="team.name"
+      :member-count="team.members.length"
+    ></teams-item>
+  </ul>
+  <footer>
+    <router-view name="footer"></router-view>
+  </footer>
+</template>
+```
+
+The logic is similar than it slots.   
+With this we can have a more complex structure for our applications.
+
+## Scroll Behavior
+
+We can control the user behavior from the router object by adding the method `scrollBehavior()`; it requires 3 arguments: `(to, from, savedPosition)`:
+- to: refers to the page we are going to.
+- from: refers to the page we came from.
+- savedPosition: stores the previous position (x,y) that the user was at before leaving the previous page.
+
+By using this we can improve the user experience greatly since we can redirect their position to exactly the part we want them to see or they were before.
+
+```JavaScript
+const router = createRouter({
+  history: createWebHistory(),
+  routes: [
+    { path: '/', redirect: '/teams' },
+    { name: 'teams'
+      path: '/teams', 
+      components: { 
+        default: TeamsList,
+        footer: TeamsFooter
+        }, 
+      children: [ 
+        {name: 'team-members', path: ':teamId', component: TeamMembers, props: true}
+      ]},
+    { path: '/users', component: UsersList },
+    { path: '/:notFound(.*)', component: NotFound },
+  ],
+  linkActiveClass: 'active',
+  scrollBehavior(to, from, savedPosition) {
+    if(savedPosition) {// we checked if it exist.
+      return savedPosition;
+    }
+    return { left: 0, top: 0}
+  }
+});
+```
+
+## Navigation guards
+
+They are useful for: 
+- Authentication: We want to avoid a certain route for a user if they are not authenticated.
+- Be aware of changing pages: In case we want to run some code once the user changes from pages.
+- User safety: If we have a form and want to make sure that the user does not accidentally goes to another page where they hae unsafe edits.
+
