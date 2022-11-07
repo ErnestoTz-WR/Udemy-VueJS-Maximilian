@@ -431,3 +431,27 @@ They are useful for:
 - Be aware of changing pages: In case we want to run some code once the user changes from pages.
 - User safety: If we have a form and want to make sure that the user does not accidentally goes to another page where they hae unsafe edits.
 
+### beforeEach()
+
+`router.beforeEach(function(to, from, next))` this method is applied on the router object (main.js).
+`beforeRouteUpdate()` this method is applied on the component.
+
+### afterEach()
+
+`router.afterEach(function(to, from, next))` this method is applied on the component.
+
+`beforeRouteLeave(to,from,next)` this method is used on the component and it is very useful when we have a form and want to avoid leaving the page with unsaved changes.
+
+## Route Metadata
+
+the `meta` property accepts any type of data (objects, arrays, etc).
+
+One of the best examples to use metadata is when we need the user to authenticate login details for accessing a page.    
+Example on video [187](https://www.udemy.com/course/vuejs-2-the-complete-guide/learn/lecture/21879416#overview)
+
+
+## Organizing route files
+
+We can have a distinction between the components which are displayed by the router (pages/views) and other components.
+
+It is also a great practice to have all router logic ino another file.
