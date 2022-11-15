@@ -9,8 +9,8 @@
 
 <script>
 export default {
+  props: ['open'],
   emits: ['close'],
-  props: ['open']
 };
 </script>
 
@@ -37,7 +37,7 @@ dialog {
   background-color: white;
   z-index: 100;
   border: none;
-  /* animation: modal 0.5s ease-out forwards; */
+  /* animation: modal 0.3s ease-out forwards; */
 }
 
 .modal-enter-active {
@@ -51,7 +51,7 @@ dialog {
 @keyframes modal {
   from {
     opacity: 0;
-    transform: translateY(-50) scale(0.9);
+    transform: translateY(-50px) scale(0.9);
   }
 
   to {
